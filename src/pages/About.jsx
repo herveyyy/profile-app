@@ -2,10 +2,10 @@ import React from 'react'
 
 function About() {
   return (
-    <div>
-      <h1>This is about page.</h1>
+    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <h1 className="text-3xl font-bold text-gray-900">About</h1>
     </div>
-  )
+  );
 }
 
-export default About
+export default About;
