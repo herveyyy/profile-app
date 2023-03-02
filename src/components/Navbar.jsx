@@ -1,14 +1,24 @@
 import React, { useState, useEffect} from "react";
-import { Link } from "react-router-dom";
-import Modal from "react-modal";
+import { Link,useLocation} from "react-router-dom";
+import Login from "react-modal";
 import {auth,provider} from "../../firebaseConfig"
 import { signInWithPopup } from "firebase/auth";
-Modal.setAppElement("#root");
+Login.setAppElement("#root");
 
 function Navbar() {
  const [value,setValue] = useState('')
   const [showModal, setShowModal] = useState(false);
-
+  const handleLoginButtonClick = () => {
+    if(location.pathname == '/login'){
+      setBtnDisable(true);
+    }else{
+       
+      
+      console.log("btn Click");
+      setBtnDisable(false);
+    }
+   
+  };
   const handleSignIn = () =>{
     signInWithPopup(auth,provider).then((data) =>{
       setValue(data.user.email)
@@ -56,7 +66,7 @@ function Navbar() {
   <div>
     <nav className="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-orange-700">
       <div className="flex items-center">
-        <Link
+        <Link 
           to="/"
           className="text-4xl text-gray-900 font-semibold uppercase font-mono"
         >
@@ -90,7 +100,7 @@ function Navbar() {
         </button>
       </div>
 
-      <Modal
+      <Login
         isOpen={showModal}
         onRequestClose={handleCloseModal}
         style={customStyles}
@@ -123,7 +133,8 @@ function Navbar() {
             <span className="font-medium">Sign in with Facebook</span>
           </button>
         </div>
-      </Modal>
+
+      </Login>
     </nav>
     <div>
       
