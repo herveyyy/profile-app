@@ -4,7 +4,6 @@ import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Profile from './pages/Profile';
-import { Flowbite } from 'flowbite-react';
 
 function App() {
   return (

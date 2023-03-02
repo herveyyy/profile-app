@@ -1,20 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
-
+import {auth,provider} from "../../firebaseConfig"
+import { signInWithPopup } from "firebase/auth";
 Modal.setAppElement("#root");
 
 function Navbar() {
+ const [value,setValue] = useState('')
   const [showModal, setShowModal] = useState(false);
 
+  const handleSignIn = () =>{
+    signInWithPopup(auth,provider).then((data) =>{
+      setValue(data.user.email)
+      localStorage.setItem("email",data.user.email)
+      setShowModal(false);
+    })
+  }
+  useEffect(() => {
+    setValue(localStorage.getItem('email'))
+  })
+  
   function handleLogin() {
+    
     setShowModal(true);
   }
 
-  function handleCloseModal() {
-    setShowModal(false);
-  }
 
+  function handleCloseModal() {
+   
+   setShowModal(false);
+  }
+  
   const customStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.6)",
@@ -37,6 +53,7 @@ function Navbar() {
   };
 
   return (
+  <div>
     <nav className="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-orange-700">
       <div className="flex items-center">
         <Link
@@ -85,7 +102,7 @@ function Navbar() {
 
           <button
             className="bg-white hover:bg-gray-100 py-3 px-4 rounded-full flex items-center justify-center"
-            onClick={handleCloseModal}
+            onClick={handleSignIn}
           >
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
@@ -108,6 +125,10 @@ function Navbar() {
         </div>
       </Modal>
     </nav>
+    <div>
+      
+    </div>
+    </div>
   );
 }
 
