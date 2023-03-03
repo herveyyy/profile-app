@@ -136,9 +136,7 @@ function Navbar() {
 
       </Login>
     </nav>
-    <div>
-      
-    </div>
+    
     </div>
   );
 }
