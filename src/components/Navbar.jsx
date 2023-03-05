@@ -9,8 +9,8 @@ Login.setAppElement("#root");
 function Navbar() {
  const [value,setValue] = useState('')
   const [showModal, setShowModal] = useState(false);
-  const [userDetails, setUserDetails] = useState([])
-
+  const [userDetails, setUserDetails] = useState([])// details sa mo login na user
+const [userLogin, setUserLogin] = useState(false);// para mahibal.an na naay naka login na user
   const handleSignIn = () =>{
     signInWithPopup(auth,provider).then((data) =>{
       try {
@@ -21,6 +21,7 @@ function Navbar() {
           setUserDetails(data);
           console.log(data.user.email)
           setShowModal(false);
+          setUserLogin(true)
         }else{
           alert("Liceo Email Only")
         }
