@@ -1,29 +1,35 @@
 import React, { useState, useEffect} from "react";
-import { Link,useLocation} from "react-router-dom";
+import { Link,useLocation, useNavigate} from "react-router-dom";
 import Login from "react-modal";
 import {auth,provider} from "../../firebaseConfig"
 import { signInWithPopup } from "firebase/auth";
+import { errorPrefix } from "@firebase/util";
 Login.setAppElement("#root");
 
 function Navbar() {
  const [value,setValue] = useState('')
   const [showModal, setShowModal] = useState(false);
-  const handleLoginButtonClick = () => {
-    if(location.pathname == '/login'){
-      setBtnDisable(true);
-    }else{
-       
-      
-      console.log("btn Click");
-      setBtnDisable(false);
-    }
-   
-  };
+  const [userDetails, setUserDetails] = useState([])
+
   const handleSignIn = () =>{
     signInWithPopup(auth,provider).then((data) =>{
-      setValue(data.user.email)
-      localStorage.setItem("email",data.user.email)
-      setShowModal(false);
+      try {
+        let emailUser = data.user.email.match("@liceo.edu.ph")
+        if(emailUser == "@liceo.edu.ph"){
+          setValue(data.user.email)
+          localStorage.setItem("email",data.user.email)
+          setUserDetails(data);
+          console.log(data.user.email)
+          setShowModal(false);
+        }else{
+          alert("Liceo Email Only")
+        }
+        
+      } catch (error) {
+        console.log(error)
+      }
+     
+    
     })
   }
   useEffect(() => {
@@ -63,7 +69,7 @@ function Navbar() {
   };
 
   return (
-  <div>
+  <div ref={console.log(userDetails)}>
     <nav className="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-orange-700">
       <div className="flex items-center">
         <Link 
@@ -90,7 +96,7 @@ function Navbar() {
           to="/profile"
           className="text-lg font-bold text-gray-500 uppercase hover:text-gray-800 mx-6 font-mono"
         >
-          Profile
+          Profiles
         </Link>
         <button
           onClick={handleLogin}
